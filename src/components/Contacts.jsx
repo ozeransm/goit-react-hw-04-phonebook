@@ -1,10 +1,10 @@
 import { ContactItem } from "./ContactItem"
 import PropTypes from 'prop-types';
-export const Contacts = ({ data, formInpFilter, handlerBtnDel })=>{
+export const Contacts = ({ data, handlerBtnDel })=>{
     return(
         <ul>
             {
-              data.map((el)=><ContactItem key={el.id} id={el.id} name={el.name} number={el.number} filter={formInpFilter} handlerBtnDel={handlerBtnDel}/>)
+              data.map((el)=><ContactItem key={el.id} id={el.id} name={el.name} number={el.number} handlerBtnDel={handlerBtnDel}/>)
             }
         </ul>
     ) 

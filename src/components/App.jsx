@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Form } from "./Form";
 import { nanoid } from 'nanoid'
 import { Contacts } from "./Contacts"
@@ -14,9 +14,23 @@ export const App = ()=>{
     {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
   ]);
   const [filter, setFilter] = useState('');
+  const firstLoad = useRef(true);
+
+  useEffect(()=>{
+    const con = localStorage.getItem('contacts');
+    
+    if (con && firstLoad.current){
+      setContacts(JSON.parse(con));
+    }
+    firstLoad.current = false;
+    if(!firstLoad.current)localStorage.setItem('contacts', JSON.stringify(contacts))
+  },[contacts])
   
+
+  
+
   const addToContact = ({ name, number })=>{
-    const flagName = contacts.filter((el)=>el.name===(name.trim())).length || !name.trim();
+    const flagName = contacts.find((el)=>el.name===(name.trim())) || !name.trim();
     if (flagName)Notiflix.Notify.failure('Dublicate name user')
     if (!flagName)setContacts(()=>{
         return [ ...contacts, {id: nanoid(), name, number}]
@@ -25,9 +39,7 @@ export const App = ()=>{
   }
 
   const handlerFind = (e)=>{
-    setFilter({
-      filter: e.target.value,
-    })
+    setFilter(e.target.value)
     
   }
   const handlerBtnDel = (data)=>{
@@ -38,13 +50,18 @@ export const App = ()=>{
     
   }
 
+  function filteredContacts(){
+    return contacts.filter((el)=>el.name.toLowerCase().includes(filter));
+       
+  }
+
   return(
     <div className={css.common}>
       <h1>Phonebook</h1>
       <Form addToContact={addToContact}/>
       <h2>Contacts</h2>
       <FindContact handlerFind={handlerFind} />
-      <Contacts data={contacts} formInpFilter={filter} handlerBtnDel={handlerBtnDel}/>
+      <Contacts data={filteredContacts()} handlerBtnDel={handlerBtnDel}/>
     </div>
   ); 
 }

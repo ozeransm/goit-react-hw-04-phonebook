@@ -1,12 +1,8 @@
 import PropTypes from 'prop-types';
-export const ContactItem = ({id, name, number, filter, handlerBtnDel})=>{
+export const ContactItem = ({id, name, number, handlerBtnDel})=>{
     
     return(
-       <>
-        { 
-         name.toLowerCase().includes(filter) && <li>{name}: {number} <button onClick={()=>handlerBtnDel(id)}>Delete</button></li>
-        }
-       </>
+      <li>{name}: {number} <button onClick={()=>handlerBtnDel(id)}>Delete</button></li>
     )
     
 }

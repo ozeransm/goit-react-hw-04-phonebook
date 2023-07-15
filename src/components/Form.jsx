@@ -8,9 +8,9 @@ export const Form = ({addToContact})=>{
     
     const handlerSubmit = (e)=>{
         e.preventDefault();
+        addToContact({name, number});
         setName('');
         setNumber('');
-        addToContact({name, number});
     }
 
     const handlerInp = ({target:{name, value}})=>{
