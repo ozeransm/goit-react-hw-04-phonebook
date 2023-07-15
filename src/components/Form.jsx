@@ -5,16 +5,12 @@ import css from './Form.module.css'
 export const Form = ({addToContact})=>{
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
-    const state = {
-        name,
-        number
-    }
-
+    
     const handlerSubmit = (e)=>{
         e.preventDefault();
         setName('');
         setNumber('');
-        addToContact(state);
+        addToContact({name, number});
     }
 
     const handlerInp = ({target:{name, value}})=>{
